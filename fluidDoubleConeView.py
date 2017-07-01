@@ -46,7 +46,7 @@ class FluidDCViewCtrl:
 
         self.recording = tk.IntVar()
         self.recordCheck = tk.Checkbutton(self.master, text = "Record",\
-            variable = self.recording)  
+            variable = self.recording)
 
         self.recordCheck.grid(row = 3, column = 1)
 

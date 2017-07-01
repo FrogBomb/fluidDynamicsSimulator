@@ -64,7 +64,7 @@ class FluidDoubleCone():
                 self.deffMat[index[0]+index[1]*self.width]
 
     def addFluid(self, fluid, location, radius):
-        self.fMat[location[0], location[1]] = np.array(fluid)
+        self.fMat[int(location[0]), int(location[1])] = np.array(fluid)
 
 #    def removeFluid(self, location, radius): TODO
 #        return
