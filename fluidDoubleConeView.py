@@ -13,12 +13,10 @@ import os
 from fluidDoubleCone import *
 import time
 BUTTONHEIGHT = 32
-#import os
 FPS = 30
 class FluidDCViewCtrl:
     def __init__(self, fluidDC, width, height):
-#        width = fluidDC.width
-#        height = fluidDC.height
+
         self.width = width
         self.height = height
         self.master = tk.Tk()
@@ -27,29 +25,21 @@ class FluidDCViewCtrl:
         self.pickColorButton = tk.Button(self.master, text="Pick Color", \
                                 command = self.getNewColor)
         self.pickColorButton.grid(sticky = tk.N, row = 0, column = 1, columnspan = 3)
-#        self.pickColorButton.pack()
         self.updateDCButton = tk.Button(self.master, text="Update Fluid",\
                                 command = self.updateFluidDCwUndo)
         self.updateDCButton.grid(row = 1, column = 1)
-#        self.updateDCButton.pack()
         self.playDCButton = tk.Button(self.master, text="Play",\
                                 command = self.playFluid)
         self.playDCButton.grid(row = 1, column = 2)
         self.playSlider = tk.Scale(label = "Play seconds", orient = tk.HORIZONTAL,\
                             from_ = 1.0/FPS, to = 10, resolution = 1.0/FPS)
         self.playSlider.grid(row=1, column = 3)
-#        self.playDCButton.pack()
         self.undoButton = tk.Button(self.master, text="Undo",\
                             command = self.undo)
         self.undoButton.grid(row = 2, column = 1)
-#        self.undoButton.pack()
         self.pickFileButton = tk.Button(self.master, text="Pick Record File",\
                                 command = self.setup_record)
         self.pickFileButton.grid(row = 2, column = 2)
-#
-#        self.saveRecordButton = tk.Button(self.master, text = "Save Recording",\
-#                                command = self.save)
-#        self.saveRecordButton.grid(row = 2, column = 3)
 
         self.displayFile = tk.Entry(self.master, state = "readonly")
         self.displayFile.grid(row = 3, column = 2)
@@ -103,9 +93,6 @@ class FluidDCViewCtrl:
             pygame.event.pump()
             self.pygameEventsHandler(pygame.event.get())
             pygame.event.clear()
-        #self.fluidDC.update(1)
-
-#        self.updateSurface()
         self.screen.blit(self.surface, (0, 0))
         pygame.display.flip()
         self.master.update()
@@ -135,19 +122,15 @@ class FluidDCViewCtrl:
             self.displayFile.insert(0, tmp)
             self.displayFile.config(state = "readonly")
             self.recordFile = tmp
-#            f = open(self.recordFile, "w")
-#            f.close()
             self.videoWriter = cv2.VideoWriter(self.recordFile,\
                 -1, FPS, (self.fluidDC.width, self.fluidDC.height), True)
             if not self.videoWriter.isOpened():
                 print "Invalid File"
                 self.displayFile.config(state = tk.NORMAL)
                 self.displayFile.delete(0, tk.END)
-#                self.displayFile.insert(0, tmp)
                 self.displayFile.config(state = "readonly")
 
     def updateFluidDC(self):
-#        self.fluidDC.spinLikeSphere(.5)
         self.fluidDC.update(1.0/FPS)
         self.updateSurface()
         if self.recording.get()==1:
@@ -203,7 +186,6 @@ class FluidDCViewCtrl:
             mousePoses.append(pygame.mouse.get_pos())
         mouseVel = pygame.mouse.get_rel()
         mousePoses = [self.translatePointToFluidDC(mousePos) for mousePos in mousePoses]
-#        print mousePoses
         mouseVel = self.translatePointToFluidDC(mouseVel)
         for mousePos in mousePoses:
             self.fluidDC.velMat[int(mousePos[0]), int(mousePos[1])] = np.array(mouseVel)
@@ -216,9 +198,7 @@ class FluidDCViewCtrl:
             if pygame.event.wait().type == pygame.MOUSEBUTTONUP:
                 stayInWhile = False
             mousePos = pygame.mouse.get_pos()
-    #        mouseVel = pygame.mouse.get_rel()
             mousePos = self.translatePointToFluidDC(mousePos)
-    #        mouseVel = self.translatePointToFluidDC(mouseVel)
             color = self.curColor.astype(np.uint8).reshape(1, 1, 3)
             color = cv2.cvtColor(color, cv2.COLOR_BGR2LAB)[0,0]
             self.fluidDC.addFluid(color, mousePos, self.curRadius)
@@ -227,13 +207,8 @@ class FluidDCViewCtrl:
 
 
     def pygameEventsHandler(self, events):
-#        if events != []:
-#            print events
         for event in events:
-#            if event.type == pygame.QUIT:
-#                return
             if event.type == pygame.MOUSEBUTTONDOWN:
-#                print "hi"
 
                 pressedButtons = pygame.mouse.get_pressed()
                 if pressedButtons[0]:
