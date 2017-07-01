@@ -26,3 +26,8 @@ run the following in the base directory of the repository:
 ~/fluidDynamicsSimulator> activate py27
 (py27) ~/fluidDynamicsSimulator> python __init__.py
 ```
+
+## Basic controls
+Left Click: Paint
+Right Click + Drag: Generate velocity vectors
+(TODO: document more)
