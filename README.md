@@ -1,7 +1,7 @@
 # fluidDynamicsSimulator
 A simple, interactive fluid dynamics simulator and recorder.
 
-#Installation
+## Installation
 You will need to install python 2.7, numpy and OpenCV 2
 
 This step is simple if you are using anaconda. 
@@ -19,7 +19,7 @@ and just run the following
 (py27) ~> conda install -c menpo opencv=2.4.11
 ```
 
-##To Run
+## To Run
 Assuming your python 2.7 environment is named `py27`,
 run the following in the base directory of the repository:
 ```cmd
