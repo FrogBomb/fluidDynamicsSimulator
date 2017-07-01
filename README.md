@@ -30,4 +30,3 @@ run the following in the base directory of the repository:
 ## Basic controls
 * _Left Click_: Paint
 * _Right Click + Drag_: Generate velocity vectors
-(TODO: document more)
