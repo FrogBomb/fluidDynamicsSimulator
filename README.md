@@ -28,6 +28,6 @@ run the following in the base directory of the repository:
 ```
 
 ## Basic controls
-Left Click: Paint
-Right Click + Drag: Generate velocity vectors
+* _Left Click_: Paint
+* _Right Click + Drag_: Generate velocity vectors
 (TODO: document more)
