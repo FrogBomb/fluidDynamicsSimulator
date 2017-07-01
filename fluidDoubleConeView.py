@@ -23,22 +23,22 @@ class FluidDCViewCtrl:
         self.frame = tk.Frame(self.master, width=width, height=height)
         self.frame.grid(sticky = tk.N, rowspan = 5)
         self.pickColorButton = tk.Button(self.master, text="Pick Color", \
-                                command = self.getNewColor)
+            command = self.getNewColor)
         self.pickColorButton.grid(sticky = tk.N, row = 0, column = 1, columnspan = 3)
         self.updateDCButton = tk.Button(self.master, text="Update Fluid",\
-                                command = self.updateFluidDCwUndo)
+            command = self.updateFluidDCwUndo)
         self.updateDCButton.grid(row = 1, column = 1)
         self.playDCButton = tk.Button(self.master, text="Play",\
-                                command = self.playFluid)
+            command = self.playFluid)
         self.playDCButton.grid(row = 1, column = 2)
         self.playSlider = tk.Scale(label = "Play seconds", orient = tk.HORIZONTAL,\
-                            from_ = 1.0/FPS, to = 10, resolution = 1.0/FPS)
+            from_ = 1.0/FPS, to = 10, resolution = 1.0/FPS)
         self.playSlider.grid(row=1, column = 3)
         self.undoButton = tk.Button(self.master, text="Undo",\
-                            command = self.undo)
+            command = self.undo)
         self.undoButton.grid(row = 2, column = 1)
         self.pickFileButton = tk.Button(self.master, text="Pick Record File",\
-                                command = self.setup_record)
+            command = self.setup_record)
         self.pickFileButton.grid(row = 2, column = 2)
 
         self.displayFile = tk.Entry(self.master, state = "readonly")
@@ -46,7 +46,7 @@ class FluidDCViewCtrl:
 
         self.recording = tk.IntVar()
         self.recordCheck = tk.Checkbutton(self.master, text = "Record",\
-                              variable = self.recording)
+            variable = self.recording)  
 
         self.recordCheck.grid(row = 3, column = 1)
 
@@ -156,11 +156,7 @@ class FluidDCViewCtrl:
 #        self.displayFile.config(state = "readonly")
 
     def recordFrame(self):
-#        print "hi"
         if self.videoWriter.isOpened():
-#            print "there"
-#            img = cv2.transpose(self.surface)
-#            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             img = cv2.cvtColor(self.fluidDC.fMat.astype(np.uint8), cv2.COLOR_LAB2RGB)
             self.videoWriter.write(img)
 
