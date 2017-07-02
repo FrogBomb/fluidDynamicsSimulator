@@ -174,12 +174,12 @@ class FluidDCViewCtrl:
     def rightClick(self):
         self.setUndoCopy()
         pygame.mouse.get_rel()
-        mousePoses = []
+        mousePoses = set()
         stayInWhile = True
         while(stayInWhile):
             if pygame.event.wait().type == pygame.MOUSEBUTTONUP:
                 stayInWhile = False
-            mousePoses.append(pygame.mouse.get_pos())
+            mousePoses.add(pygame.mouse.get_pos())
         mouseVel = pygame.mouse.get_rel()
         mousePoses = [self.translatePointToFluidDC(mousePos) for mousePos in mousePoses]
         mouseVel = self.translatePointToFluidDC(mouseVel)
