@@ -10,11 +10,17 @@ import cv2
 from fluidDoubleCone import FluidDoubleCone, RGB
 from fluidDoubleConeView import FluidDCViewCtrl
 
-def main():
+def example2():
     inImg = cv2.imread("gameFace.jpg")
     game_face_dCone = FluidDoubleCone(inImg, RGB)
     ui = FluidDCViewCtrl(game_face_dCone, 615, 737)
+
+def example1():
+    inImg = cv2.imread("fastKid.png")
+    fast_kid_dCone = FluidDoubleCone(inImg, RGB)
+    ui = FluidDCViewCtrl(fast_kid_dCone, 200*2, 200*2)
+
     ui.mainloop()
 
 if __name__ == "__main__":
-    main()
+    example1()
