@@ -15,6 +15,8 @@ def slow_example():
     game_face_dCone = FluidDoubleCone(inImg, RGB)
     ui = FluidDCViewCtrl(game_face_dCone, 615, 737)
 
+    ui.mainloop()
+
 def fast_example():
     inImg = cv2.imread("fastKid.png")
     fast_kid_dCone = FluidDoubleCone(inImg, RGB)

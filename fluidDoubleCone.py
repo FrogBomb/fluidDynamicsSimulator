@@ -46,6 +46,10 @@ class FluidDoubleCone():
         self.sphereW = 0
         self.sphereR = 0
 
+        self.jIndexArray = np.array([[[i] for i in xrange(self.width)]]*self.height)
+        self.iIndexArray = np.array([[[i]]*self.width for i in xrange(self.height)])
+        self.N = int((self.height*self.width)**.5)
+
     def copy(self):
         retCopy = FluidDoubleCone(self.fMat, LAB)
         retCopy.setVectorField(self.velMat.copy())
@@ -71,8 +75,8 @@ class FluidDoubleCone():
 
     def addCoriolis(self, dt):
                 ##TODO: Look into this function more. May be able to optimize
-        for i in range(1, self.height-1):
-            for j in range(1, self.width-1):
+        for i in xrange(1, self.height-1):
+            for j in xrange(1, self.width-1):
                 f = 2*self.sphereW*np.sin(np.pi*(i/float(self.height-1)-1/2.0))
                 self.velMat[i, j, 0] += -dt*self.velMat[i, j, 1]*f
                 self.velMat[i, j, 1] += dt*self.velMat[i, j, 0]*f
@@ -85,8 +89,8 @@ class FluidDoubleCone():
         self.velMat = vectorField
 
     def spinLikeSphere(self, spinSpeed):
-        for i in range(self.height):
-            for j in range(self.width):
+        for i in xrange(self.height):
+            for j in xrange(self.width):
                 self.velMat[i,j,1] += spinSpeed*np.cos(np.pi*(i/float(self.height)-1/2.0))
 
     def makeLikeSphere(self, spinSpeed, radius):
@@ -94,22 +98,22 @@ class FluidDoubleCone():
         self.sphereR = radius
         self.sphereW = spinSpeed/float(radius)
                 ##TODO: Look into this function more. May be able to optimize
-        for i in range(self.height):
-            for j in range(self.width):
+        for i in xrange(self.height):
+            for j in xrange(self.width):
 #                self.velMat[i,j,1] = spinSpeed*np.cos(np.pi*(i/float(self.height)-1/2.0))
                 self.sMat[i, j] = radius*(np.cos(np.pi*(i/float(self.height)-1/2.0)))
         self.set_bnd(0, self.sMat)
 
     def centerSquareToRight(self, speed):
                 ##TODO: Look into this function more. May be able to optimize
-        for i in range(self.height/3, 2*self.height/3):
-            for j in range(self.width/3, 2*self.width/3):
+        for i in xrange(self.height/3, 2*self.height/3):
+            for j in xrange(self.width/3, 2*self.width/3):
                 self.velMat[i,j,1] = speed
 
     def allToRight(self, speed):
                 ##TODO: Look into this function more. May be able to optimize
-        for i in range(1, self.height-1):
-            for j in range(1, self.width-1):
+        for i in xrange(1, self.height-1):
+            for j in xrange(1, self.width-1):
                 self.velMat[i,j,1] += speed
 
     def swirlAt(self, speed, radius, location):
@@ -123,14 +127,14 @@ class FluidDoubleCone():
                 return swirlFunc.speed*np.array([y, -x])/float(swirlFunc.radius)
         swirlFunc.speed = speed
         swirlFunc.radius = radius
-        for i in range(self.height):
-            for j in range(self.width):
+        for i in xrange(self.height):
+            for j in xrange(self.width):
                 self.velMat[i, j] = swirlFunc([i-location[0], j-location[1]])
 
     def moveHorizontalStripToRight(self, speed, width, location):
         ##TODO: Look into this function more. May be able to optimize
-        for i in range(int(location-width), int(location+width)):
-            for j in range(self.width):
+        for i in xrange(int(location-width), int(location+width)):
+            for j in xrange(self.width):
                 self.velMat[i, j] = speed
 
     def update(self, dt):
@@ -162,26 +166,22 @@ class FluidDoubleCone():
 
 
     def advect(self, b, d, dt):
-        newMat = d.copy()
-        N = int((self.height*self.width)**.5)
-        dt0 = dt*N
-        jIndexArray = np.array([[[i] for i in range(self.width)]]*self.height)
-        iIndexArray = np.array([[[i]]*self.width for i in range(self.height)])
-        x= iIndexArray-dt0*self.velMat[0:,0:,:1]#/self.sMat
-        y = jIndexArray-dt0*self.velMat[0:,0:,1:]#/self.sMat
-        tmp = x<0.5
+        dt0 = dt*self.N
+        x = self.iIndexArray-dt0*self.velMat[0:,0:,:1]#/self.sMat
+        y = self.jIndexArray-dt0*self.velMat[0:,0:,1:]#/self.sMat
+        tmp = x < 0.5
         x[tmp] = 0.5
-        tmp = x>self.height-2+0.5
-        x[tmp] = self.height-2+0.5
+        tmp = x > self.height - 2 + 0.5
+        x[tmp] = self.height - 2 + 0.5
 
         i0 = x.astype(int)
 
         i1 = i0 + 1
 
-        tmp = y<0.5
+        tmp = y < 0.5
         y[tmp] = 0.5
-        tmp = y>self.width-2+0.5
-        y[tmp] = self.width-2+0.5
+        tmp = y > self.width - 2 + 0.5
+        y[tmp] = self.width - 2 + 0.5
 
         j0 = y.astype(int)
 
@@ -222,7 +222,7 @@ class FluidDoubleCone():
 
 
     def project(self, dt):
-        div = np.zeros((self.height, self.width))
+        i = 230
         p = np.zeros((self.height, self.width))
         N = (self.height*self.width)**.5
         h = 1.0/N
@@ -233,7 +233,7 @@ class FluidDoubleCone():
         self.set_bnd(0, div)
         self.set_bnd(0, p)
         invMat = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])
-        for k in range(20):
+        for k in xrange(20):
             p = (div + cv2.filter2D(p,-1,invMat))/4.0
             self.set_bnd(0, p)
 
@@ -244,22 +244,22 @@ class FluidDoubleCone():
     def set_bnd(self, b, x):
         ##TODO: Look into this function more. May be able to optimize
         if b == 1:##1 if velocity matrix
-            for i in range(1, self.width-1):
+            for i in xrange(1, self.width-1):
                 x[0,i,0] = -x[1,i,0]
                 x[self.height-1,i,0] = -x[self.height-2,i,0]
                 x[0,i,1] = x[1,i,1]
                 x[self.height-1,i,1] = x[self.height-2,i,1]
-            for j in range(1, self.height-1):
+            for j in xrange(1, self.height-1):
                 x[j,0,0] = x[j,self.width-2,0]
                 x[j,self.width-1,0] = x[j,1,0]
                 x[j,0,1] = x[j,self.width-2,1]
                 x[j,self.width-1,1] = x[j,1,1]
         elif b == 0:
-            for i in range(1, self.width-1):
+            for i in xrange(1, self.width-1):
                 x[0,i] = x[1,i]
                 x[self.height-1,i] = x[self.height-2,i]
 
-            for j in range(1, self.height-1):
+            for j in xrange(1, self.height-1):
                 x[j,0] = x[j,self.width-2]
                 x[j,self.width-1] = x[j,1]
 
