@@ -24,10 +24,9 @@ and just run the following
 ```
 
 ## To Run Demo
-Assuming your python 2.7 environment is named `py27`,
+Assuming you are already in an environment with python 2.7,
 run the following in the base directory of the repository:
 ```cmd
-~/fluidDynamicsSimulator> activate py27
 (py27) ~/fluidDynamicsSimulator> python __init__.py
 ```
 
