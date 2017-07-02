@@ -1,6 +1,6 @@
 # fluidDynamicsSimulator
 A simple, interactive fluid dynamics simulator and recorder. 
-This was mostly written in 2014, but has been lightly cleaned up in 2016. 
+This was mostly written in 2014, but has been lightly cleaned up and published in 2017.
 
 ## Installation
 To Run, you will need to install python 2.7, numpy, pygame, and OpenCV 2
