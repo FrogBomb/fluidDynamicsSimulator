@@ -22,7 +22,7 @@ and just run the following
 (py27) ~> conda install -c cogsci pygame=1.9.2a0
 ```
 
-## To Run
+## To Run Demo
 Assuming your python 2.7 environment is named `py27`,
 run the following in the base directory of the repository:
 ```cmd
