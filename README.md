@@ -2,7 +2,7 @@
 A simple, interactive fluid dynamics simulator and recorder.
 
 ## Installation
-You will need to install python 2.7, numpy, pygame, and OpenCV 2
+To Run, you will need to install python 2.7, numpy, pygame, and OpenCV 2
 
 This step is simple if you are using anaconda. 
 Make sure you have properly installed anaconda, then run the following lines:
